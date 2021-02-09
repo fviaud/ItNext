@@ -2,7 +2,7 @@
 import 'regenerator-runtime/runtime'
 import * as types from "./types"
 
-import { auth } from "../../firebase";
+import { firebaseClient } from "../../firebase";
 
 const apiUserMap = (user) => ({
     id: user.uid,
@@ -34,7 +34,8 @@ export const signInUsersAction = (user) => {
         dispatch(requestUserAction())
         try {
             const { email, password } = user;
-            const response = await auth.signInWithEmailAndPassword(email, password);
+            // const response = await auth.signInWithEmailAndPassword(email, password);
+            const response = await firebaseClient.auth().signInWithEmailAndPassword(email, password);
             dispatch(addUserStoreAction(apiUserMap(response.user)))
         } catch (error) {
             dispatch(errorSignInUserAction(error.message))

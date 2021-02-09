@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { getProjects } from "api/api.projects"
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import Layout from 'components/layouts'
+
 import Link from "next/link";
 import { makeStyles, Typography, List, ListItem, ListItemText, ListItemAvatar, LinearProgress, Box } from "@material-ui/core";
 import FolderIcon from "@material-ui/icons/Folder";
 
-import { fetchProjectsAction } from "redux/projects/actions";
+
 import Formulaire from "./Formulaire";
 import Pagination from "./Paginations";
 
@@ -23,24 +23,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default ({ projects, error }) => {
+const projects = ({ projects, error }) => {
     const classes = useStyles();
-
-    console.log(projects)
-    console.log(error)
-
-    // const projects = useSelector((state) => state.projects);
-    // const dispatch = useDispatch();
-    // const router = useRouter();
-    // let { page } = router.query;
-
-    // console.log("test")
-    // useEffect(() => {
-    //     dispatch(fetchProjectsAction(page));
-    // }, [dispatch, page]);
-
     return !projects ? <>Loading</> :
-        <>
+        <Layout>
             <Box display="flex" mb={1}>
                 <Typography color="primary" variant="h5" className={classes.title}>
                     Projects
@@ -51,15 +37,9 @@ export default ({ projects, error }) => {
             {projects &&
                 <>
                     <List component="nav">
-                        {projects.map((project, index) => (
-                            <Link href={`projects/${project.id}/overview`}>
-                                <ListItem
-                                    button
-                                    // component={CustomRouterLink}
-                                    // to={`/project/${project.id}/overview`}
-                                    key={index}
-
-                                >
+                        {projects.values.map((project, index) => (
+                            <Link href={`projects/${project.id}/overview`} key={index}>
+                                <ListItem button >
                                     <ListItemAvatar>
                                         <FolderIcon />
                                     </ListItemAvatar>
@@ -73,18 +53,22 @@ export default ({ projects, error }) => {
                             <Pagination total_pages={projects.totalPages} />
                         </Box>}
                 </>}
-        </>
+        </Layout>
 
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ query }) {
     try {
-        // const response = await getProjects()
-        const response = await fetch("https://jsonplaceholder.typicode.com/posts")
-        const projects = response.data.json()
-        return { props: { projects } }
+        const objetByPage = 10
+        const newPage = query.page || 1
+        const response = await getProjects()
+        const totalPages = Math.ceil(response.data.length / objetByPage)
+        const projects = response.data.filter((project, index) => index < newPage * objetByPage && index >= (newPage - 1) * objetByPage)
+        return { props: { projects: { values: [...projects], totalPages } } }
     } catch (error) {
         return { props: { error: error.message } }
     }
 }
 
+
+export default projects

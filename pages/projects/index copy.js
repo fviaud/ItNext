@@ -72,13 +72,4 @@ export default () => {
 
 }
 
-export async function getServerSideProps() {
-    try {
-        const response = await getProjects()
-        const project = await response.data
-        return { props: { project } }
-    } catch (error) {
-        return { props: { error: error.message } }
-    }
-}
 
