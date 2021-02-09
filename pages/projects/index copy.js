@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { getProjects } from "api/api.projects"
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -23,23 +22,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default ({ projects, error }) => {
+export default () => {
     const classes = useStyles();
+    const projects = useSelector((state) => state.projects);
+    const dispatch = useDispatch();
+    const router = useRouter();
+    let { page } = router.query;
 
-    console.log(projects)
-    console.log(error)
+    console.log("test")
+    useEffect(() => {
+        dispatch(fetchProjectsAction(page));
+    }, [dispatch, page]);
 
-    // const projects = useSelector((state) => state.projects);
-    // const dispatch = useDispatch();
-    // const router = useRouter();
-    // let { page } = router.query;
-
-    // console.log("test")
-    // useEffect(() => {
-    //     dispatch(fetchProjectsAction(page));
-    // }, [dispatch, page]);
-
-    return !projects ? <>Loading</> :
+    return projects.isLoading ? <LinearProgress /> :
         <>
             <Box display="flex" mb={1}>
                 <Typography color="primary" variant="h5" className={classes.title}>
@@ -48,10 +43,10 @@ export default ({ projects, error }) => {
                 <Formulaire />
             </Box>
 
-            {projects &&
+            {projects.values &&
                 <>
                     <List component="nav">
-                        {projects.map((project, index) => (
+                        {projects.values.map((project, index) => (
                             <Link href={`projects/${project.id}/overview`}>
                                 <ListItem
                                     button
@@ -77,12 +72,11 @@ export default ({ projects, error }) => {
 
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps() {
     try {
-        // const response = await getProjects()
-        const response = await fetch("https://jsonplaceholder.typicode.com/posts")
-        const projects = response.data.json()
-        return { props: { projects } }
+        const response = await getProjects()
+        const project = await response.data
+        return { props: { project } }
     } catch (error) {
         return { props: { error: error.message } }
     }

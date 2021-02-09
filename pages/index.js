@@ -22,7 +22,7 @@ export default function Home() {
         <main className={styles.main}>
           <h1> Hello Fred</h1>
 
-          <Link href="/dev/">
+          <Link href="/projects/">
             <a>this page!</a>
           </Link>
         </main>

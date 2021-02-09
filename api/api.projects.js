@@ -1,5 +1,5 @@
 import axios from "axios"
-import 'regenerator-runtime/runtime'
+// import 'regenerator-runtime/runtime'
 
 const apiProjects = axios.create({ baseURL: "https://jsonplaceholder.typicode.com/posts" });
 
