@@ -33,7 +33,7 @@ export default function ButtonAppBar({ children }) {
     const classes = useStyles();
     return (
         <Layout>
-            <Menu />
+            {/* <Menu /> */}
             {children}
         </Layout>
     );

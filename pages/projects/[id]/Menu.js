@@ -71,9 +71,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CustomizedTabs() {
+export default function CustomizedTabs({ projectId, index = 0 }) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(index);
 
     const handleChange = (event, newValue) => {
         console.log(event.target)
@@ -84,12 +84,10 @@ export default function CustomizedTabs() {
 
         <div >
             <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-                <Link href="/projects">
-                    <AntTab label="Request" />
-                </Link>
-                <AntTab label="Issues" />
-                <AntTab label="Members" />
-                <AntTab label="Billing" />
+                <Link href={`/projects/${projectId}/overview`}><AntTab label="Overview" /></Link>
+                <Link href={`/projects/${projectId}/requests`}><AntTab label="Request" /></Link>
+                <Link href={`/projects/${projectId}/issues`}><AntTab label="Issues" /></Link>
+                <Link href={`/projects/${projectId}/members`}><AntTab label="Members" /></Link>
             </AntTabs>
             <Typography className={classes.padding} />
         </div>

@@ -7,7 +7,7 @@ export default ({ projectId }) => {
     return (
         <Layout>
             <Menu projectId={projectId} index={1} />
-        "Ressources"
+        "Requests"
         </Layout>
     )
 }

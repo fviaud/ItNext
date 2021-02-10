@@ -1,12 +1,14 @@
 
 import React from "react";
 
-import Layout from 'components/layouts_project'
+import Layout from 'components/layouts'
+import Menu from "../Menu"
 
 import "redux/project";
 export default ({ project, error }) => {
     return project &&
         <Layout>
+            <Menu projectId={project._id} />
             <h2>
                 {project.name}
             </h2>
