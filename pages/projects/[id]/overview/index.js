@@ -1,21 +1,23 @@
 
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { getProject } from "api/api.projects"
-import { fetchProjectAction, } from "redux/project/actions";
-import { LinearProgress } from "@material-ui/core";
+import React from "react";
+
 import Layout from 'components/layouts_project'
 
 import "redux/project";
 export default ({ project, error }) => {
-    return project ? <Layout>{project.title}</Layout> : <>Loading </>
+    return project &&
+        <Layout>
+            <h2>
+                {project.name}
+            </h2>
+        </Layout>
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ query }) {
     try {
-        const response = await getProject(params.id)
-        const project = await response.data
+        const response = await fetch(`http://localhost:3000/api/projects/${query.id}`)
+        const project = await response.json()
+
         return { props: { project } }
     } catch (error) {
         return { props: { error: error.message } }

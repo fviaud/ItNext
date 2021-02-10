@@ -8,5 +8,7 @@ module.exports = {
         REACT_APP_FIREBASE_MESSAGING_SENDER_ID: '120948608727',
         REACT_APP_FIREBASE_APP_ID: '1:120948608727:web:65de4454e496268c00ea92',
         REACT_APP_FIREBASE_MEASUREMENT_ID: 'G-LYJ69M3CEC',
+        MONGODB_URI: "mongodb+srv://dev:dev@cluster0.live8.gcp.mongodb.net/sample_airbnb?retryWrites=true&w=majority",
+        MONGODB_DB: "sample_airbnb"
     },
 }

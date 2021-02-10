@@ -82,9 +82,10 @@ export default function CustomizedTabs() {
 
         <div >
             <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-                <AntTab label="Tab 1" />
-                <AntTab label="Tab 2" />
-                <AntTab label="Tab 3" />
+                <AntTab label="Request" />
+                <AntTab label="Issues" />
+                <AntTab label="Members" />
+                <AntTab label="Billing" />
             </AntTabs>
             <Typography className={classes.padding} />
         </div>

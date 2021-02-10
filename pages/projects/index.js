@@ -1,11 +1,8 @@
 import React from "react";
-import { getProjects } from "api/api.projects"
 import Layout from 'components/layouts'
-
 import Link from "next/link";
-import { makeStyles, Typography, List, ListItem, ListItemText, ListItemAvatar, LinearProgress, Box } from "@material-ui/core";
+import { makeStyles, List, ListItem, ListItemText, ListItemAvatar, LinearProgress, Box } from "@material-ui/core";
 import FolderIcon from "@material-ui/icons/Folder";
-
 
 import Formulaire from "./Formulaire";
 import Pagination from "./Paginations";
@@ -13,9 +10,6 @@ import Pagination from "./Paginations";
 import "redux/projects";
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        flexGrow: 1,
-    },
     contentBody: {
         marginTop: theme.spacing(2),
         display: "flex",
@@ -23,52 +17,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const projects = ({ projects, error }) => {
+const projects = ({ projects, error, totalPages }) => {
     const classes = useStyles();
-    return !projects ? <>Loading</> :
+    return projects &&
         <Layout>
-            <Box display="flex" mb={1}>
-                <Typography color="primary" variant="h5" className={classes.title}>
-                    Projects
-                </Typography>
+            <>
                 <Formulaire />
-            </Box>
-
-            {projects &&
-                <>
-                    <List component="nav">
-                        {projects.values.map((project, index) => (
-                            <Link href={`projects/${project.id}/overview`} key={index}>
-                                <ListItem >
-                                    <ListItemAvatar>
-                                        <FolderIcon />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={project.title} />
-                                </ListItem>
-                            </Link>
-                        ))}
-                    </List>
-                    {projects.totalPages > 1 &&
-                        <Box className={classes.contentBody}>
-                            <Pagination total_pages={projects.totalPages} />
-                        </Box>}
-                </>}
+                <List component="nav">
+                    {projects.map((project, index) => (
+                        <ListItem key={index}>
+                            <ListItemAvatar>
+                                <FolderIcon />
+                            </ListItemAvatar>
+                            <ListItemText primary={<a href={`projects/${project._id}/overview`}>{project.name}</a>} />
+                        </ListItem>
+                    ))}
+                </List>
+                {totalPages > 1 &&
+                    <Box className={classes.contentBody}>
+                        <Pagination total_pages={totalPages} />
+                    </Box>}
+            </>
         </Layout>
-
 }
 
 export async function getServerSideProps({ query }) {
     try {
-        const objetByPage = 10
-        const newPage = query.page || 1
-        const response = await getProjects()
-        const totalPages = Math.ceil(response.data.length / objetByPage)
-        const projects = response.data.filter((project, index) => index < newPage * objetByPage && index >= (newPage - 1) * objetByPage)
-        return { props: { projects: { values: [...projects], totalPages } } }
+        const response = await fetch(`http://localhost:3000/api/projects?page=${query.page || 1}`)
+        const data = await response.json(response)
+        return { props: { projects: data.projects, totalPages: data.totalPages } }
     } catch (error) {
         return { props: { error: error.message } }
     }
 }
 
-
 export default projects
+
+
