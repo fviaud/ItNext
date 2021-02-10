@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { Box, Container, CssBaseline } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Menu from "./Menu"
 
 import AuthFormulaire from "./AuthFormulaire"
 
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         color: "black",
         background: "white",
+        boxShadow: 'none'
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -34,11 +36,11 @@ export default function ButtonAppBar({ children }) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
+            <AppBar position="static" className={classes.appBar} >
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Tools
-          </Typography>
+                    </Typography>
                     {curentUser.values ? (
                         <div className={classes.sectionDesktop}>
                             <IconButton
@@ -58,8 +60,8 @@ export default function ButtonAppBar({ children }) {
                 </Toolbar>
             </AppBar>
             <CssBaseline />
-            <Container fixed>
-                <Box mt={5} />
+
+            <Container >
                 {children}
             </Container>
         </div>

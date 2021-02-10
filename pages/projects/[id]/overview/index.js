@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import { getProject } from "api/api.projects"
 import { fetchProjectAction, } from "redux/project/actions";
 import { LinearProgress } from "@material-ui/core";
+import Layout from 'components/layouts_project'
 
 import "redux/project";
 export default ({ project, error }) => {
-    return project ? <>{project.title}</> : <>Loading </>
+    return project ? <Layout>{project.title}</Layout> : <>Loading </>
 }
 
 export async function getServerSideProps({ params }) {

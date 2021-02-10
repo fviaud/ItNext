@@ -20,21 +20,55 @@ export default function Home() {
         </Head>
 
         <main className={styles.main}>
-          <h1> Hello Fred</h1>
+          <h1 className={styles.title}>
+            Welcome to <a href="https://nextjs.org">MYTools!</a>
+          </h1>
 
-          <Link href="/projects/">
-            <a>this page!</a>
-          </Link>
+          {/* <p className={styles.description}>
+            Get started by editing{' '}
+            <code className={styles.code}>pages/index.js</code>
+          </p> */}
+
+          <div className={styles.grid}>
+            <a href="/projects" className={styles.card}>
+              <h3>Project &rarr;</h3>
+              <p>Afficher l'ensemble de mes projets.</p>
+            </a>
+
+            <a href="/inquery" className={styles.card}>
+              <h3>Inquiry &rarr;</h3>
+              <p>Creer un incident!</p>
+            </a>
+
+            <a
+              href="Catalogue"
+              className={styles.card}
+            >
+              <h3>Catalogue &rarr;</h3>
+              <p>Liste des offres aux catalogue</p>
+            </a>
+
+            <a
+              href="/Issues"
+              className={styles.card}
+            >
+              <h3>Issues &rarr;</h3>
+              <p>
+                Issues.
+            </p>
+            </a>
+          </div>
         </main>
 
         <footer className={styles.footer}>
           <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="MonGithub"
             target="_blank"
             rel="noopener noreferrer"
           >
             Powered by{' '}
-            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+            {/* <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} /> */}
+            me
           </a>
         </footer>
       </div>

@@ -39,7 +39,7 @@ const projects = ({ projects, error }) => {
                     <List component="nav">
                         {projects.values.map((project, index) => (
                             <Link href={`projects/${project.id}/overview`} key={index}>
-                                <ListItem button >
+                                <ListItem >
                                     <ListItemAvatar>
                                         <FolderIcon />
                                     </ListItemAvatar>
